@@ -1521,6 +1521,13 @@ func (nodes CheckServiceNodes) Shuffle() {
 	}
 }
 
+// ShallowClone duplicates the slice and underlying array.
+func (nodes CheckServiceNodes) ShallowClone() CheckServiceNodes {
+	dup := make(CheckServiceNodes, len(nodes))
+	copy(dup, nodes)
+	return dup
+}
+
 // Filter removes nodes that are failing health checks (and any non-passing
 // check if that option is selected). Note that this returns the filtered
 // results AND modifies the receiver for performance.
@@ -1710,6 +1717,11 @@ type IndexedHealthChecks struct {
 
 type IndexedCheckServiceNodes struct {
 	Nodes CheckServiceNodes
+	QueryMeta
+}
+
+type DatacenterIndexedCheckServiceNodes struct {
+	DatacenterNodes map[string]CheckServiceNodes
 	QueryMeta
 }
 
